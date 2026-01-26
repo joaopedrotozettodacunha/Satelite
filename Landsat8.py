@@ -1,6 +1,3 @@
-# Risco de inundação
-"""
-
 import ee
 import geopandas as gpd
 import geemap
@@ -105,7 +102,9 @@ print(f"Período de busca da imagem de base: {base_start_date} a {base_end_date}
 # Filtra a coleção Landsat 5 Collection 2 Level 2
 landsat5_collection = ee.ImageCollection('LANDSAT/LC08/C02/T1_L2') \
     .filterBounds(geometry) \
-    .filterDate(start_date, end_date)
+    .filterDate(start_date, end_date) \
+    .filter(ee.Filter.lt('CLOUD_COVER', 50))
+
 
 # Verifica quantas imagens existem
 image_count = landsat5_collection.size().getInfo()
@@ -213,7 +212,9 @@ else:
     print(f"\n=== Processando imagem de base  ===")
     base_collection = ee.ImageCollection('LANDSAT/LC08/C02/T1_L2') \
         .filterBounds(geometry) \
-        .filterDate(base_start_date, base_end_date)
+        .filterDate(base_start_date, base_end_date) \
+        .filter(ee.Filter.lt('CLOUD_COVER', 50))
+
 
     base_count = base_collection.size().getInfo()
     print(f"Imagens encontradas para período de base: {base_count}")
