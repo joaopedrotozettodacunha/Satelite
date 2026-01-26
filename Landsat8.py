@@ -14,17 +14,17 @@ ee.Authenticate() #force=True)
 ee.Initialize(project='sentinel-479800')
 
 # Define a coordenada de interesse (longitude, latitude)
-lon = -41.31 # Longitude
-lat = -21.75  # Latitude
-cidade_uf = 'Região Norte Fluminense RJ'
+lon = -51.2089 # Longitude
+lat = -30.0368  # Latitude
+cidade_uf = 'Porto Alegre RS'
 
 # Define a data de referência e o intervalo de dias
-reference_date = '2015-01-20'  # Data de referência
-dias_anteriores = 10  # Número de dias antes da data de referência
-dias_posteriores = 10  # Número de dias depois da data de referência
+reference_date = '2024-05-05'  # Data de referência
+dias_anteriores = 20  # Número de dias antes da data de referência
+dias_posteriores = 20  # Número de dias depois da data de referência
 
 # Definir o buffer em graus
-buffer_degrees = 0.1  # 5 km em graus
+buffer_degrees = 0.2  # 5 km em graus
 
 ponto = Point(lon, lat)
 poligono_buffer = ponto.buffer(buffer_degrees)
@@ -213,8 +213,7 @@ else:
     base_collection = ee.ImageCollection('LANDSAT/LC08/C02/T1_L2') \
         .filterBounds(geometry) \
         .filterDate(base_start_date, base_end_date) \
-        .filter(ee.Filter.lt('CLOUD_COVER', 50))
-
+        .filter(ee.Filter.lt('CLOUD_COVER', 100))
 
     base_count = base_collection.size().getInfo()
     print(f"Imagens encontradas para período de base: {base_count}")
